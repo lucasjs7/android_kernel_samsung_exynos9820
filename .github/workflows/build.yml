@@ -33,6 +33,39 @@ jobs:
         run: |
           git clone https://github.com/osm0sis/AnyKernel3 AnyKernel3
 
+      - name: Configure AnyKernel3 for Samsung S10
+        run: |
+          cat > AnyKernel3/anykernel.sh << 'EOF'
+          # AnyKernel3 Ramdisk Mod Script
+          # osm0sis @ xda-developers
+
+          properties() { '
+          kernel.string=Docker Kernel for Galaxy S10 (LineageOS 23.2)
+          do.devicecheck=1
+          do.modules=0
+          do.systemless=0
+          do.cleanup=1
+          do.cleanuponabort=0
+          device.name1=beyond1lte
+          device.name2=beyond1
+          device.name3=SM-G973F
+          device.name4=SM-G973N
+          device.name5=beyond1ltexx
+          supported.versions=
+          supported.patchlevels=
+          '; }
+
+          block=/dev/block/by-name/boot;
+          is_slot_device=0;
+          ramdisk_compression=auto;
+          patch_vbmeta_flag=auto;
+
+          . tools/ak3-core.sh;
+
+          dump_boot;
+          write_boot;
+          EOF
+
       - name: Compile Kernel
         run: |
           export ARCH=arm64
@@ -44,9 +77,9 @@ jobs:
 
       - name: Package with AnyKernel3
         run: |
-          cp arch/arm64/boot/Image.gz AnyKernel3/ 2>/dev/null || cp arch/arm64/boot/Image AnyKernel3/
+          cp arch/arm64/boot/Image AnyKernel3/
           cd AnyKernel3
-          zip -r9 ../Kernel-Docker-S10.zip *
+          zip -r9 ../Kernel-Docker-S10.zip * -x .git README.md *placeholder
 
       - name: Upload Kernel Zip
         uses: actions/upload-artifact@v4

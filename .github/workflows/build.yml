@@ -13,23 +13,24 @@ jobs:
       - name: Setup Build Environment
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential bc bison flex libssl-dev libncurses-dev git zip
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libncurses-dev git zip gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
 
-      - name: Clone Toolchain & AnyKernel3
+      - name: Clone AnyKernel3
         run: |
-          git clone https://github.com/akhilnarang/scripts toolchain_scripts
           git clone https://github.com/osm0sis/AnyKernel3 AnyKernel3
 
       - name: Compile Kernel
         run: |
           export ARCH=arm64
           export SUBARCH=arm64
+          export CROSS_COMPILE=aarch64-linux-gnu-
+          
           make exynos9820-beyond1lte_defconfig
-          make -j$(nproc)
+          make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
 
       - name: Package with AnyKernel3
         run: |
-          cp arch/arm64/boot/Image.gz-dtb AnyKernel3/
+          cp arch/arm64/boot/Image.gz AnyKernel3/ 2>/dev/null || cp arch/arm64/boot/Image AnyKernel3/
           cd AnyKernel3
           zip -r9 ../Kernel-Docker-S10.zip *
 

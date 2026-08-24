@@ -3283,7 +3283,7 @@ static int adpt_i2o_systab_send(adpt_hba* pHba)
 
 #ifdef UARTDELAY 
 
-static static void adpt_delay(int millisec)
+static void adpt_delay(int millisec)
 {
 	int i;
 	for (i = 0; i < millisec; i++) {

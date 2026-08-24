@@ -2497,7 +2497,7 @@ static void mfc_wpc_afc_vout_work(struct work_struct *work)
 
 	/* change cable type */
 	if (charger->pdata->cable_type == SEC_WIRELESS_PAD_PREPARE_HV)
-		charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_HV;
+		charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_HV);
 	else
 		value.intval = charger->pdata->cable_type;
 
@@ -3971,7 +3971,7 @@ static void mfc_wpc_opfq_work(struct work_struct *work)
 		}
 	} else if ((pad_mode == PAD_MODE_PMA_SR1) ||\
 			(pad_mode == PAD_MODE_PMA_SR1E)) {
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_PMA;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_PMA);
 			psy_do_property("wireless", set, POWER_SUPPLY_PROP_ONLINE, value);
 	}
 	charger->pdata->opfq_cnt = 0;
@@ -4111,11 +4111,11 @@ static void mfc_wpc_det_work(struct work_struct *work)
 		pr_info("%s: Pad type (0x%x)\n", __func__, pad_mode);
 		if ((pad_mode == PAD_MODE_PMA_SR1) ||
 			(pad_mode == PAD_MODE_PMA_SR1E)) {
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_PMA;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_PMA);
 			psy_do_property("wireless", set,
 					POWER_SUPPLY_PROP_ONLINE, value);
 		} else { /* WPC */
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC);
 			psy_do_property("wireless", set,
 					POWER_SUPPLY_PROP_ONLINE, value);
 			wake_lock(&charger->wpc_opfq_lock);
@@ -4138,7 +4138,7 @@ static void mfc_wpc_det_work(struct work_struct *work)
 			mfc_set_vout(charger, MFC_VOUT_10V);
 
 			/* change cable type */
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_HV;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_HV);
 			psy_do_property("wireless", set,
 				POWER_SUPPLY_PROP_ONLINE, value);
 		} else {
@@ -4298,7 +4298,7 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 			msleep(500);
 
 			/* change cable type */
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_PREPARE_HV;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_PREPARE_HV);
 			psy_do_property("wireless", set,
 				POWER_SUPPLY_PROP_ONLINE, value);
 
@@ -4327,10 +4327,10 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 						charger->pdata->cable_type = SEC_WIRELESS_PAD_VEHICLE_HV;
 						value.intval = SEC_WIRELESS_PAD_PREPARE_HV;
 					} else {
-						charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_VEHICLE_HV;
+						charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_VEHICLE_HV);
 					}
 				} else {
-					charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_VEHICLE;
+					charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_VEHICLE);
 				}
 				pr_info("%s: VEHICLE Wireless Charge PAD %s\n", __func__,
 					charger->pad_vout == PAD_VOUT_10V ? "HV" : "");
@@ -4342,10 +4342,10 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 						charger->pdata->cable_type = SEC_WIRELESS_PAD_WPC_STAND_HV;
 						value.intval = SEC_WIRELESS_PAD_PREPARE_HV;
 					} else {
-						charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_STAND_HV;
+						charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_STAND_HV);
 					}
 				} else {
-					charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_STAND;
+					charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_STAND);
 					mfc_fod_set_hero_5v(charger);
 				}
 				pr_info("%s: STAND Wireless Charge PAD %s\n", __func__,
@@ -4363,11 +4363,11 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 						value.intval = SEC_WIRELESS_PAD_PREPARE_HV;
 						pr_info("%s: WIRELESS HV BATTERY PACK (PREP) \n", __func__);
 					} else {
-						charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_PACK_HV;
+						charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_PACK_HV);
 						pr_info("%s: WIRELESS HV BATTERY PACK\n", __func__);
 					}
 				} else {
-					charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_PACK;
+					charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_PACK);
 					pr_info("%s: WIRELESS BATTERY PACK\n", __func__);
 				}
 				if (charger->device_event & BATT_EXT_EVENT_CALL) {
@@ -4384,7 +4384,7 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 				break;
 			case TX_ID_UNO_TX:
 			case TX_ID_UNO_TX_B0 ... TX_ID_UNO_TX_MAX:
-				charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_TX;
+				charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_TX);
 				pr_info("@Tx_Mode %s: TX by UNO\n", __func__);
 				if (charger->device_event & BATT_EXT_EVENT_CALL) {
 					pr_info("%s: enter PHM \n", __func__);
@@ -4426,7 +4426,7 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 						psy_do_property("wireless", set,
 							POWER_SUPPLY_EXT_PROP_WIRELESS_AUTH_ADT_STATUS, value);
 
-						charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_PREPARE_HV_20;
+						charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_PREPARE_HV_20);
 						pr_info("%s %s : AUTH PAD for WIRELESS 2.0 : 0x%x\n", WC_AUTH_MSG, __func__, val_data);
 					} else {
 						value.intval = charger->pdata->cable_type;
@@ -4443,7 +4443,7 @@ static void mfc_wpc_isr_work(struct work_struct *work)
 						cancel_delayed_work(&charger->wpc_afc_vout_work);
 					}
 					charger->adt_transfer_status = WIRELESS_AUTH_PASS;
-					charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_WPC_HV_20;
+					charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_WPC_HV_20);
 					wake_lock(&charger->wpc_afc_vout_lock);
 					queue_delayed_work(charger->wqueue, &charger->wpc_afc_vout_work, msecs_to_jiffies(0));
 				}
@@ -4629,7 +4629,7 @@ static void mfc_vrect_check_work(struct work_struct *work)
 	if (!charger->initial_vrect) {
 		if (charger->pdata->cable_type == SEC_WIRELESS_PAD_NONE) {
 			/* Attach case */
-			charger->pdata->cable_type = value.intval = SEC_WIRELESS_PAD_FAKE;
+			charger->pdata->cable_type = (value.intval = SEC_WIRELESS_PAD_FAKE);
 			psy_do_property("wireless", set, POWER_SUPPLY_PROP_ONLINE, value);
 
 			/* To make sure forced detach if VOUT_GD is not rising within 3 seconds */

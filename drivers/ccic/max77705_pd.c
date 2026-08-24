@@ -707,7 +707,7 @@ void max77705_current_pdo(struct max77705_usbc_platform_data *usbc_data, unsigne
 
 	if (usbc_data->pd_data->pdo_list && do_power_nego) {
 		pr_info("%s : PDO list is changed, so power negotiation is need\n",
-			__func__, pd_noti.sink_status.selected_pdo_num);
+			__func__);
 		pd_noti.sink_status.selected_pdo_num = 0;
 		pd_noti.event = PDIC_NOTIFY_EVENT_PD_SINK_CAP;
 	}
@@ -796,7 +796,7 @@ void max77705_current_pdo(struct max77705_usbc_platform_data *usbc_data, unsigne
 
 	if (usbc_data->pd_data->pdo_list && do_power_nego) {
 		pr_info("%s : PDO list is changed, so power negotiation is need\n",
-			__func__, pd_noti.sink_status.selected_pdo_num);
+			__func__);
 		pd_noti.sink_status.selected_pdo_num = 0;
 		pd_noti.event = PDIC_NOTIFY_EVENT_PD_SINK_CAP;
 	}

@@ -4266,13 +4266,13 @@ static void sec_bat_wireless_vout_cntl(struct sec_battery_info *battery, int vou
 	pr_info("@Tx_Mode %s : set uno & mfc vout (%dmV -> %dmV)\n", __func__, vout_mv, vout_now_mv);
 
 	if (battery->wc_tx_vout >= vout_now) {
-		battery->wc_tx_vout = value.intval = vout_now;
+		battery->wc_tx_vout = (value.intval = vout_now);
 		psy_do_property(battery->pdata->wireless_charger_name, set,
 				POWER_SUPPLY_EXT_PROP_WIRELESS_TX_VOUT, value);
 		psy_do_property(battery->pdata->charger_name, set,
 				POWER_SUPPLY_EXT_PROP_WIRELESS_TX_VOUT, value);
 	} else if (vout_now > battery->wc_tx_vout) {
-		battery->wc_tx_vout = value.intval = vout_now;
+		battery->wc_tx_vout = (value.intval = vout_now);
 		psy_do_property(battery->pdata->charger_name, set,
 				POWER_SUPPLY_EXT_PROP_WIRELESS_TX_VOUT, value);
 		psy_do_property(battery->pdata->wireless_charger_name, set,

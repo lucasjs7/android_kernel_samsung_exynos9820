@@ -2520,7 +2520,7 @@ ssize_t sec_bat_store_attrs(
 	case WC_TX_VOUT:
 		if (sscanf(buf, "%10d\n", &x) == 1) {
 			pr_info("@Tx_Mode %s: Set TX Vout (%d)\n", __func__, x);
-			battery->wc_tx_vout = value.intval = x;
+			battery->wc_tx_vout = (value.intval = x);
 			if (battery->wc_tx_enable) {
 				pr_info("@Tx_Mode %s: set TX Vout (%d)\n", __func__, value.intval);
 				psy_do_property(battery->pdata->charger_name, set,

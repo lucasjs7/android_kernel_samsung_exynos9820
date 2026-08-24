@@ -1,0 +1,40 @@
+name: Build Kernel Docker S10
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Kernel Source
+        uses: actions/checkout@v4
+
+      - name: Setup Build Environment
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libncurses-dev git zip
+
+      - name: Clone Toolchain & AnyKernel3
+        run: |
+          git clone https://github.com/akhilnarang/scripts toolchain_scripts
+          git clone https://github.com/osm0sis/AnyKernel3 AnyKernel3
+
+      - name: Compile Kernel
+        run: |
+          export ARCH=arm64
+          export SUBARCH=arm64
+          make exynos9820-beyond1lte_defconfig
+          make -j$(nproc)
+
+      - name: Package with AnyKernel3
+        run: |
+          cp arch/arm64/boot/Image.gz-dtb AnyKernel3/
+          cd AnyKernel3
+          zip -r9 ../Kernel-Docker-S10.zip *
+
+      - name: Upload Kernel Zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: Kernel-Docker-S10
+          path: Kernel-Docker-S10.zip
